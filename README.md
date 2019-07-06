@@ -4,8 +4,6 @@
 
 ### (01) 프로젝트 스택
 
-#### 01) 백 엔드
-
 - **Language** : Node.js
 
 - **Framework** : Koa.js, koa-router(Routing)
@@ -125,7 +123,7 @@ module.exports = {
 
 - 이후 터미널에 **mongo** 키워드를 입력하면 MongoDB가 제대로 동작하는지 확인할 수 있다.
 
-### (03) Mongoose | 몽구스
+### (04) Mongoose | 몽구스
 
 #### 01) Mongoose 란?
 
@@ -136,3 +134,28 @@ module.exports = {
 - ``` yarn add mongoose dotenv ``` 릍 통해 설치
 
 - **dotenv**는 환경변수들을 파일에 넣고 사용할 수 있게 하는 개발도구입니다. 몽구스를 연결할 때 이용하는 서버 계정과 비밀번호등을 보관하는 역활을 합니다.
+
+#### 02) Mongoose와 Koa 연결하기
+
+```javascript
+const mongoose = require('mongoose');
+
+mongoose.Promise = global.Promise;
+mongoose.connect(MONGO_URI, {useNewUrlParser: true}).then(()=>{
+    console.log('connected to mongodb');
+}).catch((e)=>{
+    console.error(e);
+});
+```
+
+#### 03) 데이터베이스의 스키마와 모델
+
+- **스키마 Schema** : 컬렉션에 들어가는 문서 내부의 각 필드가 어떤 형식으로 되어 있는지 정의하는 객체
+
+- **모델 Model** : 스키마를 사용하여 만드는 인스턴스로, 데이터베이스에서 실제 작업을 처리할 수 있는 함수들을 지니고 있는 객체
+
+- 모델을 만들기 위해서는 사전에 스키마를 만들어 주어야 한다.
+
+- 스키마를 만들기 위해서는 **mongoose 모듈의 Schema를 사용**하여 정의 합니다.
+
+- 모델을 만들 때는 **mongoose.model** 함수를 사용합니다.
