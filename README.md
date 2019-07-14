@@ -81,6 +81,23 @@ module.exports = {
 
 - 해당 미들웨어는 **POST/PUT/PATCH 같은 메서드의 Request Body에 JSON 형식으로 데이터를 넣어 주면, 이를 파싱하여 서버에서 사용할 수 있도록 합니다.**
 
+#### 03) 프록시(Proxy) 기능
+
+- 웹팩의 프록시 기능을 사용하면 개발 서버로 들어온 요청을 백엔드 서버에 전달하고, 응답을 그대로 반환할 수 있습니다.
+
+- package.json에서 프록시 설정을 추가해주면 됩니다.
+
+```json
+{
+    (...)
+    "proxy": "http://localhost: 4000"
+}
+```
+
+#### 04) axios
+
+- REST API 웹 요청을 프로미스 기반으로 간편하게 할 수 있는 라이브러리
+
 ### (03) Mongo DB | 몽고디비
 
 #### 01) Mongo DB 란?
@@ -133,7 +150,7 @@ module.exports = {
 
 - ``` yarn add mongoose dotenv ``` 릍 통해 설치
 
-- **dotenv**는 환경변수들을 파일에 넣고 사용할 수 있게 하는 개발도구입니다. 몽구스를 연결할 때 이용하는 서버 계정과 비밀번호등을 보관하는 역활을 합니다.
+- **dotenv**는 환경변수들을 파일에 넣고 사용할 수 있게 하는 개발 도구입니다. 몽구스를 연결할 때 이용하는 서버 계정과 비밀번호등을 보관하는 역활을 합니다.
 
 #### 02) Mongoose와 Koa 연결하기
 
@@ -148,6 +165,8 @@ mongoose.connect(MONGO_URI, {useNewUrlParser: true}).then(()=>{
 });
 ```
 
+- MONGO_URI는 환경변수로 .env파일에 저장해주며 데이터베이스가 없다면 자동으로 만드므로 사전에 따로 생성할 필요는 없다.
+
 #### 03) 데이터베이스의 스키마와 모델
 
 - **스키마 Schema** : 컬렉션에 들어가는 문서 내부의 각 필드가 어떤 형식으로 되어 있는지 정의하는 객체
@@ -159,3 +178,45 @@ mongoose.connect(MONGO_URI, {useNewUrlParser: true}).then(()=>{
 - 스키마를 만들기 위해서는 **mongoose 모듈의 Schema를 사용**하여 정의 합니다.
 
 - 모델을 만들 때는 **mongoose.model** 함수를 사용합니다.
+
+- 모델과 스키마 관련 코드는 보통 **src/models** 디렉토리에 저장한다.
+
+```javascript
+
+const mongoose = require('mongoose');
+
+const {Schema} = mongoose;
+
+/*스키마 생성 함수*/
+const Post = new Schema({
+    title : String,
+    body : String,
+    tags : [String],
+    publishedDate: {
+        type: Date,
+        default: new DataCue()
+    }
+});
+
+/*모델 생성 함수*/
+module.exports = mongoose.model('Post', Post);
+/*
+mongoose.model('스키마 이름','스키마 객체')
+데이터베이스는 스키마 이름을 정해주면 이 이름의 복수 형태로 데이터베이스에 컬렉션 이름을 만듭니다.
+*/
+
+```
+
+#### 04) Mongoose 에서 지언하는 자료 타입
+
+타입 | 설명
+----|-----
+String | 문자열
+Number | 숫자
+Date | 날짜
+Buffer | 파일을 담을 수 있는 버퍼
+Boolean | True 또는 False rkqt
+Mixed(Schema.Types.Mixed) | 어떤 데이터도 넣을 수 있는 형식
+ObjectedId(Schema.Types.ObjectId) | 객체 아이디, 주로 다른 객체를 참조할 때 넣음
+Array | 배열 형태의 값으로 []로 감싸서 사용
+

@@ -2,16 +2,18 @@ const mongoose = require('mongoose');
 
 const {Schema} = mongoose;
 
+/*스키마 생성 함수*/
 const Post = new Schema({
     title : String,
     body : String,
     tags : [String],
     publishedDate: {
         type: Date,
-        default: new DataCue()
+        default: new Date()
     }
 });
 
+/*모델 생성 함수*/
 module.exports = mongoose.model('Post', Post);
 /*
 mongoose.model('스키마 이름','스키마 객체')
