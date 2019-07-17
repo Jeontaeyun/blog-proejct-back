@@ -1,2 +1,4 @@
 /node_modules
 /.env
+.eslintrc.js
+/eslintrc.json

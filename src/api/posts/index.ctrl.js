@@ -147,3 +147,12 @@ exports.checkObjectId = (ctx, next) => {
     }
     return next();
 }
+// 로그인 여부 확인하는 API
+
+exports.checkLogin = (ctx, next) => {
+    if(!ctx.session.logged){
+        ctx.status = 401 ;              // Unauthorized
+        return null;
+    }
+    return next();
+}
