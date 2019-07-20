@@ -17,7 +17,7 @@ exports.login = (ctx) => {
     }
 };
 
-exports.check = (ctx) => {
+exports.checkLogin = (ctx) => {
     ctx.body = {
         /* !! 문자를 두번 입력하여 값이 존재하지 않을 때도 false를 반환하도록 설정합니다. undefined나 null 방지 */
         logged: !!ctx.session.logged
