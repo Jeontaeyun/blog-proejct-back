@@ -4,7 +4,8 @@
 이를 위해 Node.js에서 웹 브라우저에만 존재하는 객체들을 조회해도 오류가 발생하지 않도록 가상의 웹 브라우저 환경을 설정하는 라이브러리인
 browserr-env를 사용합니다.
  */
-require('browser-env');
+require('browser-env')();
+const render = require('./render');
 
 const buildHtml = (rednered) => {
     return `
@@ -18,8 +19,6 @@ const buildHtml = (rednered) => {
     </html>
     `
 }
-
-const render = require('./render').default;
 
 module.exports = async (ctx) => {
     const rendered = render(ctx);

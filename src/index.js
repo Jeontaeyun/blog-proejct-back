@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const session = require('koa-session');
 const ssr = require('./ssr');
+const path = require('path');
 const serve = require('koa-static');
 //.env파일 적용하는 문법
 dotenv.config();
@@ -41,6 +42,7 @@ app.keys = [signKey];
 // app 인스턴스에 라우터 적용
 app.use(router.routes()).use(router.allowedMethods());
 // 일치하는 것이 없으면 ssr을 실행한다.
+app.use(serve(staticPath));
 app.use(ssr);
 
 app.listen(port, () => {
