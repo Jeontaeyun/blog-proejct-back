@@ -5,7 +5,7 @@
 browserr-env를 사용합니다.
  */
 require('browser-env')();
-const render = require('./render');
+const render = require('./0.render').default;
 
 const buildHtml = (rednered) => {
     return `
@@ -21,6 +21,5 @@ const buildHtml = (rednered) => {
 }
 
 module.exports = async (ctx) => {
-    const rendered = render(ctx);
-    ctx.body = rendered;
+    console.log(render);
 }
