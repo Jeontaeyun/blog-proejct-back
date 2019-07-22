@@ -8,7 +8,9 @@ require('browser-env')();
 const render = require('./render').default;
 const manifest = require('./asset-manifest.json');
 
-const buildHtml = (rendered) => {
+const buildHtml = ({html, helmet}) => {
+    // Helmet을 통해 받아온 meta와 title을 바인딩해준다.
+    const {title, meta} = helmet;
     return `
     <!doctype html>
     <html lang="en">
@@ -17,20 +19,21 @@ const buildHtml = (rendered) => {
         <link rel="shortcut icon" href="/favicon.ico"/>
         <meta name="viewport" content="width=device-width,initial-scale=1"/>
         <meta name="theme-color" content="#000000"/>
-        <link rel="manifest" href="${manifest['main.css']}"/>
-        <title>BLOG PROJECT</title>
-        <link href="/static/css/main.216f714f.css" rel="stylesheet">
+        ${meta.toString()}
+        <link rel="manifest" href="/manifest"/>
+        ${title.toString()}
+        <link href="${manifest['files']['main.css']}" rel="stylesheet">
         </head>
         <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
-        <div id="root">${rendered}</div>
-        <script src="${manifest['main.js']}"></script>
+        <div id="root">${html}</div>
+        <script src="${manifest['files']['main.js']}"></script>
         </body>
         </html>
     `
 }
 
 module.exports = async (ctx) => {
-    const rendered = render(ctx);
+    const rendered = await render(ctx);
     ctx.body = buildHtml(rendered);
 }
