@@ -5,21 +5,32 @@
 browserr-env를 사용합니다.
  */
 require('browser-env')();
-const render = require('./0.render').default;
+const render = require('./render').default;
+const manifest = require('./asset-manifest.json');
 
-const buildHtml = (rednered) => {
+const buildHtml = (rendered) => {
     return `
-    <!DOCTYPE html>
-    <html lang='en'>
+    <!doctype html>
+    <html lang="en">
         <head>
-            <meta charset='utf-8'/>>
-            <meta name ='viewport' content = 'width=device-width,initial-scale=1,shrink-to-fit=no'/>
-            <title>블로그 프로젝트</title>
+        <meta charset="utf-8"/>
+        <link rel="shortcut icon" href="/favicon.ico"/>
+        <meta name="viewport" content="width=device-width,initial-scale=1"/>
+        <meta name="theme-color" content="#000000"/>
+        <link rel="manifest" href="${manifest['main.css']}"/>
+        <title>BLOG PROJECT</title>
+        <link href="/static/css/main.216f714f.css" rel="stylesheet">
         </head>
-    </html>
+        <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root">${rendered}</div>
+        <script src="${manifest['main.js']}"></script>
+        </body>
+        </html>
     `
 }
 
 module.exports = async (ctx) => {
-    console.log(render);
+    const rendered = render(ctx);
+    ctx.body = buildHtml(rendered);
 }
