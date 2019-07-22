@@ -11,7 +11,7 @@ const serve = require('koa-static');
 dotenv.config();
 
 // 프론트엔드 디렉터리의 build 디렉터리를 파라미터로 넣어주면 웹 서버를 이용하여 build 디렉터리 안에 있는 파일에 접근할 수 있습니다.
-const staticPath = path.join(__dirname,'./ssr');
+const staticPath = path.join(__dirname,'../../blogproject/build');
 
 //.env파일의 변수는 process.env에 저장됨
 const {PORT : port, MONGO_URI : mongoURI, COOKIE_SIGN_KEY : signKey } = process.env;

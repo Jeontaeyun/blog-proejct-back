@@ -6,9 +6,9 @@ browserr-env를 사용합니다.
  */
 require('browser-env')();
 const render = require('./render').default;
-const manifest = require('./asset-manifest.json');
+const manifest = require('../../../blogproject/build/asset-manifest.json');
 
-const buildHtml = ({html, helmet}) => {
+const buildHtml = ({html, preloadedState, helmet}) => {
     // Helmet을 통해 받아온 meta와 title을 바인딩해준다.
     const {title, meta} = helmet;
     return `
@@ -22,18 +22,30 @@ const buildHtml = ({html, helmet}) => {
         ${meta.toString()}
         <link rel="manifest" href="/manifest"/>
         ${title.toString()}
-        <link href="${manifest['files']['main.css']}" rel="stylesheet">
+        <link href="${manifest['files']['app.css']}" rel="stylesheet">
         </head>
         <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="root">${html}</div>
-        <script src="${manifest['files']['main.js']}"></script>
+        <script>
+            window.__PRELOADED_STATE__=${preloadedState}
+        </script>
+        <script src="${manifest['files']['app.js']}"></script>
+        <script src="${manifest['files']['runtime~app.js']}"></script>
+        <script src="${manifest['files']['runtime~vendor.js']}"></script>
+        <script src="${manifest['files']['vendor.js']}"></script>
         </body>
         </html>
     `
 }
+// 프론트에서 빌드한 프론트 엔드의 Application의 브라우저에 대한 js파일을 모두 넣어주어야 정상 동작한다.
 
 module.exports = async (ctx) => {
-    const rendered = await render(ctx);
-    ctx.body = buildHtml(rendered);
+    try{
+        const rendered = await render(ctx);
+        ctx.body = buildHtml(rendered);
+    }
+    catch(e){
+        ctx.body = buildHtml({})
+    }
 }
