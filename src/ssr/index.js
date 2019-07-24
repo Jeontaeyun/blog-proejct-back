@@ -34,15 +34,17 @@ const buildHtml = ({html, preloadedState, helmet}) => {
         <script src="${manifest['files']['runtime~app.js']}"></script>
         <script src="${manifest['files']['runtime~vendor.js']}"></script>
         <script src="${manifest['files']['vendor.js']}"></script>
+        <script src="${manifest['files']['precache-manifest.3564be287c8c860b2466210cdf5e2fb4.js']}"></script>
         </body>
         </html>
     `
 }
 // 프론트에서 빌드한 프론트 엔드의 Application의 브라우저에 대한 js파일을 모두 넣어주어야 정상 동작한다.
-
+// Helmet이 바로 동작하지 않고 1번 새로고침을 해야지 동작한다.
 module.exports = async (ctx) => {
     try{
         const rendered = await render(ctx);
+        console.log(rendered);
         ctx.body = buildHtml(rendered);
     }
     catch(e){
