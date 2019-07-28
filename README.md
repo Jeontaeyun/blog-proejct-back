@@ -233,7 +233,20 @@ Array | 배열 형태의 값으로 []로 감싸서 사용
 
 - Koa 프레임워크에서 세션을 사용하기 위한 라이브러리
 
-## 03. 프로젝트 고찰
+## 03. 프로젝트 API
+
+메소드 | 주소 | 설명
+---- | ---- | -------------------------------
+POST | /api/auth/login | 로그인 API
+POST | /api/auth/logout | 로그아웃 API
+GET  | /api/auth/checkLogin | 로그인여부 확인 API
+GET  | /api/posts/      |  포스트를 작성 API
+GET  | /api/posts/:page |  포스트 리스트를 페이지 별로 호출 API
+POST | /api/posts/id/:id | 해당 id의 포스트를 보여주는 API
+DELETE | /api/posts/:id | 해당 id의 포스트를 삭제하는 API
+PATCH  | /api/posts/:id | 해당 id의 포스트를 수정하는 API
+
+## 04. 프로젝트 고찰
 
 ### (01) REST API에 대한 학습
 
